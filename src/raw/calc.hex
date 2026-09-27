@@ -1,0 +1,52 @@
+# calc — hand-encoded aarch64 ELF: recursive descent (expr/term/unary) on the machine stack
+7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00
+02 00 b7 00 01 00 00 00
+78 00 40 00 00 00 00 00
+40 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00
+00 00 00 00
+40 00 38 00 01 00 40 00 00 00 00 00
+# PT_LOAD rwx, filesz 0x2d0, memsz 0x600000 (buf 0x500000, out 0x900000, digit tmp below 0xa00000)
+01 00 00 00 07 00 00 00
+00 00 00 00 00 00 00 00
+00 00 40 00 00 00 00 00
+00 00 40 00 00 00 00 00
+d0 02 00 00 00 00 00 00
+00 00 60 00 00 00 00 00
+00 10 00 00 00 00 00 00
+# _start @00
+13 0a a0 d2  14 00 80 d2                                                      # x19=buf x20=len
+00 00 80 d2  61 02 14 8b  02 08 a0 d2  42 00 14 cb  e8 07 80 d2  01 00 00 d4   # 08 rd
+1f 00 00 f1  6d 00 00 54  94 02 00 8b  f7 ff ff 17
+15 00 80 d2  1c 12 a0 d2                                                      # 30 pos=0 x28=out
+bf 02 14 eb  2a 02 00 54  60 6a 75 38  1f 80 00 71  68 00 00 54  b5 06 00 91  fa ff ff 17   # 38 line: skip ws
+22 00 00 94  6b 00 00 94  40 01 80 52  80 17 00 38                            # 54 expr, print, '\n'
+bf 02 14 eb  ca 00 00 54  60 6a 75 38  b5 06 00 91  1f 28 00 71  61 ff ff 54  ef ff ff 17   # 64 drop rest of line
+01 12 a0 d2  82 03 01 cb                                                      # 80 done
+22 01 00 b4  20 00 80 d2  08 08 80 d2  01 00 00 d4  1f 00 00 f1  8d 00 00 54  21 00 00 8b  42 00 00 cb  f8 ff ff 17   # 88 write loop
+00 00 80 d2  a8 0b 80 d2  01 00 00 d4                                         # ac exit
+# peek @b8
+bf 02 14 eb  ca 00 00 54  60 6a 75 38  1f 80 00 71  81 00 00 54  b5 06 00 91  fa ff ff 17  00 00 80 52  c0 03 5f d6
+# expr @dc
+fd 7b be a9  f6 5f 01 a9  14 00 00 94  f6 03 00 aa
+f3 ff ff 97  1f ac 00 71  60 00 00 54  1f b4 00 71  41 01 00 54               # ec
+f7 03 00 2a  b5 06 00 91  0b 00 00 94  ff ae 00 71  61 00 00 54  d6 02 00 8b  f5 ff ff 17   # 100
+d6 02 00 cb  f3 ff ff 17                                                      # 11c
+e0 03 16 aa  f6 5f 41 a9  fd 7b c2 a8  c0 03 5f d6                            # 124
+# term @134
+fd 7b be a9  f6 5f 01 a9  14 00 00 94  f6 03 00 aa
+dd ff ff 97  1f a8 00 71  60 00 00 54  1f bc 00 71  41 01 00 54               # 144
+f7 03 00 2a  b5 06 00 91  0b 00 00 94  ff aa 00 71  61 00 00 54  d6 7e 00 9b  f5 ff ff 17   # 158
+d6 0e c0 9a  f3 ff ff 17                                                      # 174
+e0 03 16 aa  f6 5f 41 a9  fd 7b c2 a8  c0 03 5f d6                            # 17c
+# unary @18c
+fd 7b bf a9  ca ff ff 97  1f b4 00 71  a1 00 00 54  b5 06 00 91  fb ff ff 97  e0 03 00 cb  15 00 00 14   # '-'
+1f a0 00 71  01 01 00 54  b5 06 00 91  c9 ff ff 97  e0 0f 1f f8  be ff ff 97  b5 06 00 91  e0 07 41 f8  0c 00 00 14   # 1ac '('
+00 00 80 d2  43 01 80 d2                                                      # 1d0 number
+bf 02 14 eb  0a 01 00 54  62 6a 75 38  42 c0 00 51  5f 24 00 71  88 00 00 54  00 08 03 9b  b5 06 00 91  f8 ff ff 17   # 1d8
+fd 7b c1 a8  c0 03 5f d6                                                      # 1fc
+# put_i64 @204
+09 14 a0 d2  ea 03 09 aa  1f 00 00 f1  0b a4 80 da  4c 01 80 d2
+6d 09 cc 9a  ae ad 0c 9b  ce c1 00 11  4a 05 00 d1  4e 01 00 39  eb 03 0d aa  4b ff ff b5   # 218
+1f 00 00 f1  6a 00 00 54  ae 05 80 52  8e 17 00 38                            # 234
+4e 15 40 38  8e 17 00 38  5f 01 09 eb  a1 ff ff 54  c0 03 5f d6               # 244

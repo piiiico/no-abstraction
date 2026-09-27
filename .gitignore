@@ -1,0 +1,8 @@
+node_modules/
+tests/
+perf/
+build/
+results*/
+ctl/
+src-*/
+*.o
