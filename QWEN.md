@@ -19,7 +19,7 @@ the toolchain.
 
 Denominators below 10 are generations the rail never returned: it timed out or returned 504, which
 leaves no file. `lru` in asm is missing in all three generations. WAT g3 is mostly missing. The rail
-ran about 1 generation per 3–4 minutes at the start, and dropped to about 1 per 18 minutes on 09-29.
+ran about 1 generation per 3–4 minutes at the start, and dropped to about 1 per 18 minutes on 09-29. A second 25-minute chunk returned nothing (one 504), so the run stopped at 77 of 90 files.
 
 ## Failure split
 - **C:** every file compiled. The 6 failures are wrong output: jsonget ×2 (g1 9/10 tests, g2 0/10),
