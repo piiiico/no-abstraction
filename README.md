@@ -54,7 +54,10 @@ Times are for the large perf input (best of 3). WAT times include about 60 ms of
 - The programs are small (40–250 instructions). The crossover may sit at larger sizes.
 
 ## Replicates: Qwen3.6-35B-A3B (3 independent one-shot generations per cell)
-See `QWEN.md` (filled in when the run finishes).
+C passes 7, 8 and 9 of 10. aarch64 asm: 0 of 27 files even assemble. WAT: 0 of 21 files even
+compile. The dominant error is not semantic. The model mixes up instruction sets and dialects
+(immediates where aarch64 needs registers, ARM32 `push`/`streq`, pre-2017 WAT). Details and verbatim
+errors are in `QWEN.md`.
 
 ## Run it
     npm i wabt@1.0.36 && python3 gen_tests.py && python3 gen_tests2.py
